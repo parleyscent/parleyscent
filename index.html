@@ -143,6 +143,8 @@
   .bq-notice{max-width:640px;margin:0 auto 26px;padding:14px 20px;text-align:center;font-size:.9rem;line-height:1.6;color:var(--bone);background:rgba(201,162,77,.08);border:1px solid rgba(201,162,77,.4);border-radius:12px;}
   .bq-notice b{color:var(--gold);font-weight:600;}
   @media (max-width:600px){.bq-notice{font-size:.82rem;padding:12px 14px;margin-bottom:20px;}}
+
+  .bq-img{display:block;width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:10px;background:rgba(245,241,232,.04);margin-bottom:10px;}
 </style>
 </head>
 <body>
@@ -335,7 +337,7 @@ renderStory(PERFUMES[0]);
 
 // ---- Boutique Bajo Pedido ----
 // Los datos se leen de catalogo.json (si está junto a esta página); si no, se usa esta copia.
-// El campo "imagen" ya viene en los datos pero todavía no se muestra.
+// La imagen de cada tarjeta sale del campo "imagen" (si el archivo no existe, se oculta sola).
 const CATALOGO_EMBED = [
   {
     "id": "armaf-artisto-100ml",
@@ -347,7 +349,7 @@ const CATALOGO_EMBED = [
     "precio": 860,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "./img/armaf-artisto.png"
+    "imagen": "img/armaf-artisto.png"
   },
   {
     "id": "armaf-go-mango-100ml",
@@ -443,6 +445,7 @@ function renderBoutique(items){
     const msg = `Hola! Quiero pedir bajo pedido: ${it.marca} ${it.nombre} ${it.concentracion} ${it.tamano} (${mxn(it.precio)}), de la Boutique Bajo Pedido de Parley Scent.`;
     const href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
     return `<article class="bq-card" id="${it.id}">
+      <img src="${it.imagen}" alt="${it.nombre}" class="bq-img" loading="lazy" onerror="this.style.display='none'">
       <div class="bq-brand">${it.marca}</div>
       <div class="bq-name">${it.nombre}</div>
       <div class="bq-spec">${it.concentracion} &middot; ${it.tamano}</div>
