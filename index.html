@@ -145,6 +145,37 @@
   @media (max-width:600px){.bq-notice{font-size:.82rem;padding:12px 14px;margin-bottom:20px;}}
 
   .bq-img{display:block;width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:10px;background:rgba(245,241,232,.04);margin-bottom:10px;}
+
+  /* ---- Boutique product modal ---- */
+  .bq-overlay{
+    position:fixed;inset:0;background:rgba(0,0,0,.72);
+    display:flex;align-items:center;justify-content:center;
+    padding:20px;z-index:200;opacity:0;pointer-events:none;
+    transition:opacity .18s ease;
+  }
+  .bq-overlay.open{opacity:1;pointer-events:auto;}
+  .bq-modal{
+    background:var(--panel);border:1px solid rgba(201,162,77,.35);border-radius:18px;
+    max-width:440px;width:100%;max-height:88vh;overflow-y:auto;position:relative;
+    padding:30px 26px 26px;box-shadow:0 30px 60px rgba(0,0,0,.6);
+  }
+  .bq-modal-close{
+    position:absolute;top:14px;right:16px;background:none;border:none;
+    color:var(--muted);font-size:1.4rem;line-height:1;cursor:pointer;padding:4px 8px;
+  }
+  .bq-modal-close:hover{color:var(--bone);}
+  .bq-modal-img{width:100%;aspect-ratio:1/1;object-fit:contain;border-radius:12px;background:rgba(245,241,232,.04);margin-bottom:16px;}
+  .bq-modal-brand{color:var(--gold);font-size:.7rem;letter-spacing:.14em;}
+  .bq-modal-name{font-size:1.35rem;color:var(--bone);margin:6px 0 2px;line-height:1.25;}
+  .bq-modal-spec{color:var(--muted);font-size:.85rem;margin-bottom:14px;}
+  .bq-modal-desc{color:var(--muted);font-size:.9rem;font-style:italic;line-height:1.5;margin:0 0 18px;}
+  .bq-modal-notes{display:grid;grid-template-columns:1fr 1fr;gap:16px;border-top:1px solid rgba(245,241,232,.08);border-bottom:1px solid rgba(245,241,232,.08);padding:16px 0;margin-bottom:16px;}
+  .bq-modal-notes h4{font-size:.66rem;letter-spacing:.08em;color:var(--gold);margin:0 0 4px;font-weight:400;}
+  .bq-modal-notes p{font-size:.82rem;margin:0;color:var(--muted);}
+  @media (max-width:420px){.bq-modal-notes{grid-template-columns:1fr;}}
+  .bq-modal-price{font-size:1.4rem;color:var(--gold);margin-bottom:6px;}
+  .bq-modal-dates{font-size:.78rem;color:var(--muted);line-height:1.7;margin-bottom:18px;}
+  .bq-modal-btn{display:block;text-align:center;width:100%;}
 </style>
 </head>
 <body>
@@ -552,24 +583,174 @@ function renderBoutique(items){
   bqGrid.innerHTML = items.map(it=>{
     const msg = `Hola! Quiero pedir bajo pedido: ${it.marca} ${it.nombre} ${it.concentracion} ${it.tamano} (${mxn(it.precio)}), de la Boutique Bajo Pedido de Parley Scent.`;
     const href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
-    return `<article class="bq-card" id="${it.id}">
+    return `<article class="bq-card" id="${it.id}" tabindex="0" role="button" aria-haspopup="dialog" onclick='openBqModal("${it.id}")' onkeydown='if(event.key==="Enter")openBqModal("${it.id}")'>
       <img src="${it.imagen}" alt="${it.nombre}" class="bq-img" loading="lazy" onerror="this.style.display='none'">
       <div class="bq-brand">${it.marca}</div>
       <div class="bq-name">${it.nombre}</div>
       <div class="bq-spec">${it.concentracion} &middot; ${it.tamano}</div>
       <div class="bq-badge">${it.modalidad.toUpperCase()}</div>
       <div class="bq-price">${mxn(it.precio)}</div>
-      <div class="bq-dates">Cierre de pedido: <b>${it.cierre_pedido}</b><br>Entrega estimada: <b>${it.entrega_estimada}</b></div>
-      <a class="btn ghost bq-btn" href="${href}" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+      <div class="bq-dates">Cierre de pedido: <b>${it.cierre_pedido}</b><br>Entrega: <b>de 5 a 7 días hábiles</b></div>
+      <a class="btn ghost bq-btn" href="${href}" target="_blank" rel="noopener" onclick="event.stopPropagation()">Pedir por WhatsApp</a>
     </article>`;
   }).join('');
 }
 
+
+// ---- Notas aromaticas por producto (Boutique Bajo Pedido) ----
+const BQ_NOTES = {
+  "armaf-artisto-100ml": {
+    "salida": "Bergamota, notas de nuez, salvia",
+    "corazon": "Coco, frutas tropicales, canela",
+    "fondo": "Vainilla, haba tonka, ámbar",
+    "desc": "Fusión cálida y golosa entre cítricos secos y un corazón tropical-cremoso."
+  },
+  "armaf-go-mango-100ml": {
+    "salida": "Jengibre, limón, pimienta rosa, flores blancas",
+    "corazon": "Mango, haba tonka, madera seca",
+    "fondo": "Notas amaderadas, madera de gaiac, almizcle, vainilla, ámbar",
+    "desc": "Explosión tropical de mango maduro sobre un fondo amaderado-ambarado."
+  },
+  "bharara-rome-intense-100ml": {
+    "salida": "Geranio",
+    "corazon": "Jengibre, salvia",
+    "fondo": "Madera de cedro, vetiver",
+    "desc": "Aromático-amaderado, fresco y elegante; ideal para el día a día."
+  },
+  "bharara-melancholia-100ml": {
+    "salida": "Bergamota, pomelo, notas ozónicas, ciruela",
+    "corazon": "Madera de cachemira, cedro, avellana, miel, jazmín, azahar",
+    "fondo": "Madera ambarada, notas gourmand, musgo de roble, pachulí, vetiver",
+    "desc": "Perfil amaderado-gourmand, profundo y ligeramente dulce."
+  },
+  "rasasi-hawas-london-100ml": {
+    "salida": "Cítricos, notas marinas",
+    "corazon": "Notas aromáticas, especias suaves",
+    "fondo": "Almizcle, pachulí, maderas",
+    "desc": "Variante fresca y acuática de la línea Hawas, versátil para uso diario."
+  },
+  "bleu-de-chanel-50ml": {
+    "salida": "Pomelo, menta, pimienta rosa",
+    "corazon": "Jengibre, nuez moscada, jazmín",
+    "fondo": "Incienso, cedro, sándalo, labdanum",
+    "desc": "Cítrico-amaderado icónico: fresco al inicio, seco y magnético en el fondo."
+  },
+  "chanel-chance-50ml": {
+    "salida": "Pimienta rosa, limón, piña",
+    "corazon": "Jazmín, jacinto, iris",
+    "fondo": "Pachulí, ámbar, almizcle blanco",
+    "desc": "Floral-frutal chispeante, ligero y con una estela suave y elegante."
+  },
+  "chanel-allure-homme-sport-150ml": {
+    "salida": "Mandarina, notas marinas",
+    "corazon": "Cedro, notas acuáticas",
+    "fondo": "Madera ambarada, vainilla, haba tonka",
+    "desc": "Cítrico-acuático deportivo, limpio y fácil de llevar en cualquier ocasión."
+  },
+  "afnan-9pm-dive-100ml": {
+    "salida": "Notas marinas, bergamota, manzana",
+    "corazon": "Lavanda, especias, gamuza",
+    "fondo": "Haba tonka, maderas, almizcle",
+    "desc": "La versión acuática del icónico 9pm: fresca, salada y con fondo dulce."
+  },
+  "afnan-9pm-100ml": {
+    "salida": "Pitahaya, lavanda, coñac, manzana, bergamota",
+    "corazon": "Toffee, cardamomo, gamuza, cedro",
+    "fondo": "Haba tonka, pachulí, madera Akigala",
+    "desc": "El original de la línea: dulce, licoroso y con carácter nocturno."
+  },
+  "afnan-9pm-elixir-100ml": {
+    "salida": "Frutas oscuras, especias",
+    "corazon": "Toffee, cacao, gamuza",
+    "fondo": "Vainilla, ámbar, maderas densas",
+    "desc": "La versión más intensa y gourmand del 9pm, para noches frías."
+  },
+  "bharara-king-100ml": {
+    "salida": "Naranja, bergamota, limón",
+    "corazon": "Notas frutales (tutti frutti)",
+    "fondo": "Almizcle blanco, ámbar, vainilla",
+    "desc": "Cítrico-frutal con un fondo cálido y dulce, elegante y muy versátil."
+  },
+  "armaf-cdn-iconic-100ml": {
+    "salida": "Pomelo, limón, menta, pimienta rosa, cilantro",
+    "corazon": "Jengibre, melón, nuez moscada, jazmín",
+    "fondo": "Sándalo, ámbar, incienso, cedro, pachulí, labdanum",
+    "desc": "Cítrico-amaderado sofisticado, con un fondo ahumado y resinoso."
+  },
+  "rasasi-hawas-diva-100ml": {
+    "salida": "Frutos rojos, lichi",
+    "corazon": "Rosa, vainilla",
+    "fondo": "Incienso, cedro",
+    "desc": "Floral-frutal dulce y moderno, con un toque gourmand en el fondo."
+  },
+  "rasasi-hawas-malibu-100ml": {
+    "salida": "Naranja, piña, pomelo",
+    "corazon": "Ámbar, raíz de iris, lavanda",
+    "fondo": "Almizcle, pachulí, haba tonka, madera de cachemira",
+    "desc": "Frescor oceánico y afrutado con un corazón floral-ambarado."
+  },
+  "rasasi-hawas-him-100ml": {
+    "salida": "Bergamota, manzana, limón, canela",
+    "corazon": "Azahar, cardamomo, ciruela",
+    "fondo": "Pachulí, ámbar gris, madera a la deriva, almizcle",
+    "desc": "Aromático-acuático clásico de la línea Hawas, fresco y masculino."
+  },
+  "armaf-odyssey-mega-100ml": {
+    "salida": "Manzana verde, jengibre, bergamota, naranja",
+    "corazon": "Salvia, bayas de enebro, geranio",
+    "fondo": "Madera de ámbar (amberwood), haba tonka, cedro, vetiver",
+    "desc": "Amaderado aromático, fresco y limpio; equilibra cítricos-frutales con un fondo dulce-amaderado. Ideal a diario, oficina o gimnasio."
+  }
+};
+
+let bqCurrentItems = CATALOGO_EMBED;
+
+function openBqModal(id){
+  const it = bqCurrentItems.find(x => x.id === id);
+  if(!it) return;
+  const notes = BQ_NOTES[id];
+  const overlay = document.getElementById('bq-modal-overlay');
+  const body = document.getElementById('bq-modal-body');
+  const waMsg = `Hola! Quiero pedir bajo pedido: ${it.marca} ${it.nombre} ${it.concentracion} ${it.tamano} (${mxn(it.precio)}), de la Boutique Bajo Pedido de Parley Scent.`;
+  const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMsg)}`;
+  body.innerHTML = `
+    ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}" class="bq-modal-img" onerror="this.style.display='none'">` : ''}
+    <div class="bq-modal-brand">${it.marca}</div>
+    <div class="bq-modal-name">${it.nombre}</div>
+    <div class="bq-modal-spec">${it.concentracion} &middot; ${it.tamano}</div>
+    ${notes ? `<p class="bq-modal-desc">${notes.desc}</p>
+    <div class="bq-modal-notes">
+      <div><h4>SALIDA</h4><p>${notes.salida}</p></div>
+      <div><h4>CORAZ\u00d3N</h4><p>${notes.corazon}</p></div>
+      <div><h4>FONDO</h4><p>${notes.fondo}</p></div>
+    </div>` : `<p class="bq-modal-desc">Notas aromaticas: pr\u00f3ximamente.</p>`}
+    <div class="bq-modal-price">${mxn(it.precio)}</div>
+    <div class="bq-modal-dates">Cierre de pedido: <b>${it.cierre_pedido}</b><br>Entrega: <b>de 5 a 7 d\u00edas h\u00e1biles</b></div>
+    <a class="btn primary bq-modal-btn" href="${waHref}" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+  `;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeBqModal(){
+  document.getElementById('bq-modal-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if(e.key === 'Escape') closeBqModal(); });
+
 renderBoutique(CATALOGO_EMBED);
 fetch('catalogo.json', {cache:'no-cache'})
   .then(r => r.ok ? r.json() : null)
-  .then(j => { if(Array.isArray(j) && j.length) renderBoutique(j); })
+  .then(j => { if(Array.isArray(j) && j.length){ bqCurrentItems = j; renderBoutique(j); } })
   .catch(()=>{});
 </script>
+  <div class="bq-overlay" id="bq-modal-overlay" onclick="if(event.target===this) closeBqModal()">
+    <div class="bq-modal" role="dialog" aria-modal="true">
+      <button class="bq-modal-close" onclick="closeBqModal()" aria-label="Cerrar">&times;</button>
+      <div id="bq-modal-body"></div>
+    </div>
+  </div>
+
 </body>
 </html>
