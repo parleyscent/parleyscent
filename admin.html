@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Parley Scent — Panel del catálogo</title>
+<style>
+  :root{
+    --bg:#0d0c0a; --panel:#121110; --bone:#f5f1e8; --gold:#c9a24d;
+    --wine:#a83a46; --muted:#b8b4ab;
+    box-sizing:border-box;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--bone);font-family:Georgia,serif;line-height:1.5;}
+  .wrap{max-width:960px;margin:0 auto;padding:36px 20px 60px;}
+  h1{font-size:1.6rem;font-weight:400;margin:0 0 6px;}
+  .sub{color:var(--muted);font-size:.9rem;margin:0 0 28px;}
+  .sub b{color:var(--gold);}
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:26px;}
+  .btn{
+    border:1px solid rgba(201,162,77,.5);background:rgba(245,241,232,.03);color:var(--bone);
+    padding:10px 18px;border-radius:999px;font-size:.85rem;cursor:pointer;font-family:Georgia,serif;
+  }
+  .btn:hover{border-color:var(--gold);}
+  .btn.primary{background:var(--gold);color:#0d0c0a;border-color:var(--gold);font-weight:600;}
+  .btn.danger{border-color:rgba(168,58,70,.6);color:#e39aa4;}
+  .btn.danger:hover{border-color:var(--wine);background:rgba(168,58,70,.12);}
+  input[type=file]{display:none;}
+  .card{
+    background:var(--panel);border:1px solid rgba(201,162,77,.25);border-radius:16px;
+    padding:20px 22px;margin-bottom:16px;
+  }
+  .card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .card-head .idx{color:var(--gold);font-size:.75rem;letter-spacing:.08em;}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .grid.full{grid-template-columns:1fr;}
+  label{display:block;font-size:.68rem;letter-spacing:.08em;color:var(--muted);margin-bottom:4px;}
+  input, select{
+    width:100%;padding:9px 11px;border-radius:8px;border:1px solid rgba(245,241,232,.15);
+    background:rgba(245,241,232,.03);color:var(--bone);font-family:Georgia,serif;font-size:.9rem;
+  }
+  input:focus, select:focus{outline:none;border-color:var(--gold);}
+  @media (max-width:600px){.grid{grid-template-columns:1fr;}}
+  .row-actions{display:flex;justify-content:flex-end;margin-top:14px;}
+  #empty{color:var(--muted);text-align:center;padding:40px 0;}
+  .count{color:var(--muted);font-size:.85rem;margin-bottom:14px;}
+  textarea{
+    width:100%;min-height:220px;background:#000;color:#9be89b;font-family:monospace;font-size:.78rem;
+    border-radius:10px;border:1px solid rgba(201,162,77,.3);padding:14px;
+  }
+  .hint{font-size:.78rem;color:var(--muted);margin-top:8px;}
+  .steps{background:var(--panel);border:1px solid rgba(201,162,77,.25);border-radius:16px;padding:20px 22px;margin-bottom:30px;font-size:.85rem;color:var(--muted);}
+  .steps b{color:var(--bone);}
+  .steps ol{margin:8px 0 0;padding-left:20px;}
+  .steps li{margin-bottom:6px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Panel del catálogo — Boutique Bajo Pedido</h1>
+  <p class="sub">Agrega, edita o borra perfumes sin tocar código. Al final descargas un <b>catalogo.json</b> nuevo para subir a Vercel.</p>
+
+  <div class="steps">
+    <b>Cómo se usa</b>
+    <ol>
+      <li>Carga tu <b>catalogo.json</b> actual con el botón "Cargar catálogo".</li>
+      <li>Edita, agrega o borra perfumes con los formularios de abajo.</li>
+      <li>Da clic en "Descargar catalogo.json".</li>
+      <li>Sube ese archivo a tu proyecto en Vercel, reemplazando el que ya tenías (mismo nombre, misma carpeta).</li>
+    </ol>
+    Este panel no se conecta a tu página en vivo — solo genera el archivo que tú subes. Guárdalo tú (o en tu Drive) para tenerlo siempre a la mano.
+  </div>
+
+  <div class="toolbar">
+    <label class="btn" for="file-input">Cargar catálogo (.json)</label>
+    <input type="file" id="file-input" accept="application/json">
+    <button class="btn" id="add-btn">+ Agregar perfume</button>
+    <button class="btn primary" id="download-btn">Descargar catalogo.json</button>
+    <button class="btn" id="view-json-btn">Ver JSON</button>
+  </div>
+
+  <div class="count" id="count"></div>
+  <div id="cards"></div>
+  <div id="empty" style="display:none;">Aún no hay productos. Carga un catálogo o agrega uno nuevo.</div>
+
+  <div id="json-view" style="display:none;">
+    <textarea id="json-textarea" spellcheck="false"></textarea>
+    <p class="hint">Puedes editar aquí directamente y dar clic en "Aplicar JSON" si prefieres el modo texto.</p>
+    <button class="btn" id="apply-json-btn">Aplicar JSON</button>
+  </div>
+</div>
+
+<script>
+const FIELDS = [
+  {key:'marca', label:'MARCA'},
+  {key:'nombre', label:'NOMBRE'},
+  {key:'concentracion', label:'CONCENTRACIÓN (EDP/EDT)'},
+  {key:'tamano', label:'TAMAÑO'},
+  {key:'modalidad', label:'MODALIDAD'},
+  {key:'precio', label:'PRECIO (MXN, solo número)'},
+  {key:'cierre_pedido', label:'CIERRE DE PEDIDO'},
+  {key:'entrega_estimada', label:'ENTREGA ESTIMADA'},
+  {key:'imagen', label:'ARCHIVO DE IMAGEN (ej. img/nombre.png)'},
+];
+
+let items = [
+  {
+    "id": "armaf-artisto-100ml",
+    "marca": "ARMAF",
+    "nombre": "Odyssey Artisto The Red",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 860,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/armaf-artisto.png"
+  },
+  {
+    "id": "armaf-go-mango-100ml",
+    "marca": "ARMAF",
+    "nombre": "Odyssey Go Mango",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 820,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/armaf-go-mango.png"
+  },
+  {
+    "id": "bharara-rome-intense-100ml",
+    "marca": "BHARARA",
+    "nombre": "Rome Intense Pour Homme",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1000,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/bharara-rome.png"
+  },
+  {
+    "id": "bharara-melancholia-100ml",
+    "marca": "BHARARA",
+    "nombre": "Melancholia Men",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1000,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/bharara-melancholia.png"
+  },
+  {
+    "id": "rasasi-hawas-london-100ml",
+    "marca": "RASASI",
+    "nombre": "Hawas London",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1020,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/rasasi-hawas-london.png"
+  },
+  {
+    "id": "bleu-de-chanel-50ml",
+    "marca": "CHANEL",
+    "nombre": "Bleu de Chanel",
+    "concentracion": "EDT",
+    "tamano": "50 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 2550,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/bleu-de-chanel.png"
+  },
+  {
+    "id": "chanel-chance-50ml",
+    "marca": "CHANEL",
+    "nombre": "Chance",
+    "concentracion": "EDT",
+    "tamano": "50 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 2860,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/chanel-chance.png"
+  },
+  {
+    "id": "chanel-allure-homme-sport-150ml",
+    "marca": "CHANEL",
+    "nombre": "Allure Homme Sport",
+    "concentracion": "EDT",
+    "tamano": "150 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 4110,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/chanel-allure-sport.png"
+  },
+  {
+    "id": "afnan-9pm-dive-100ml",
+    "marca": "AFNAN",
+    "nombre": "9pm Dive",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 830,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/afnan-9pm-dive.png"
+  },
+  {
+    "id": "afnan-9pm-100ml",
+    "marca": "AFNAN",
+    "nombre": "9pm",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 810,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/afnan-9pm.png"
+  },
+  {
+    "id": "afnan-9pm-elixir-100ml",
+    "marca": "AFNAN",
+    "nombre": "9pm Elixir",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 840,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/afnan-9pm-elixir.png"
+  },
+  {
+    "id": "bharara-king-100ml",
+    "marca": "BHARARA",
+    "nombre": "King",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1460,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/bharara-king.png"
+  },
+  {
+    "id": "armaf-cdn-iconic-100ml",
+    "marca": "ARMAF",
+    "nombre": "Club de Nuit Iconic",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1060,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/armaf-cdn-iconic.png"
+  },
+  {
+    "id": "rasasi-hawas-diva-100ml",
+    "marca": "RASASI",
+    "nombre": "Hawas Diva",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1170,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/rasasi-hawas-diva.png"
+  },
+  {
+    "id": "rasasi-hawas-malibu-100ml",
+    "marca": "RASASI",
+    "nombre": "Hawas Malibú",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1170,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/rasasi-hawas-malibu.png"
+  },
+  {
+    "id": "rasasi-hawas-him-100ml",
+    "marca": "RASASI",
+    "nombre": "Hawas For Him",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 1060,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/rasasi-hawas-him.png"
+  },
+  {
+    "id": "armaf-odyssey-mega-100ml",
+    "marca": "ARMAF",
+    "nombre": "Odyssey Mega",
+    "concentracion": "EDP",
+    "tamano": "100 ml",
+    "modalidad": "Sobre pedido",
+    "precio": 830,
+    "cierre_pedido": "Viernes 12:00 PM",
+    "entrega_estimada": "Miércoles",
+    "imagen": "img/armaf-odyssey-mega.png"
+  }
+];
+
+function slugify(marca, nombre, tamano){
+  const base = `${marca}-${nombre}-${tamano}`.toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+  return base || ('item-' + Date.now());
+}
+
+function blankItem(){
+  return {
+    id: 'nuevo-' + Date.now(),
+    marca: '', nombre: '', concentracion: 'EDP', tamano: '100 ml',
+    modalidad: 'Sobre pedido', precio: 0,
+    cierre_pedido: 'Viernes 12:00 PM', entrega_estimada: 'Miércoles',
+    imagen: ''
+  };
+}
+
+function render(){
+  const cardsEl = document.getElementById('cards');
+  const emptyEl = document.getElementById('empty');
+  document.getElementById('count').textContent = items.length
+    ? `${items.length} perfume${items.length===1?'':'s'} en el catálogo`
+    : '';
+  if(items.length === 0){
+    cardsEl.innerHTML = '';
+    emptyEl.style.display = 'block';
+    return;
+  }
+  emptyEl.style.display = 'none';
+  cardsEl.innerHTML = items.map((it, i) => `
+    <div class="card" data-i="${i}">
+      <div class="card-head">
+        <div class="idx">PRODUCTO ${i+1}${it.marca||it.nombre ? ' — ' + (it.marca||'') + ' ' + (it.nombre||'') : ''}</div>
+        <button class="btn danger" data-action="delete" data-i="${i}">Borrar</button>
+      </div>
+      <div class="grid">
+        ${FIELDS.map(f => `
+          <div>
+            <label>${f.label}</label>
+            <input data-i="${i}" data-key="${f.key}" value="${(it[f.key] ?? '').toString().replace(/"/g,'&quot;')}" type="${f.key==='precio'?'number':'text'}">
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+
+  cardsEl.querySelectorAll('input').forEach(inp=>{
+    inp.addEventListener('input', e=>{
+      const i = +e.target.dataset.i;
+      const key = e.target.dataset.key;
+      let val = e.target.value;
+      if(key === 'precio') val = val === '' ? 0 : Number(val);
+      items[i][key] = val;
+      if(key === 'marca' || key === 'nombre' || key === 'tamano'){
+        items[i].id = slugify(items[i].marca, items[i].nombre, items[i].tamano);
+      }
+    });
+  });
+  cardsEl.querySelectorAll('[data-action="delete"]').forEach(btn=>{
+    btn.addEventListener('click', e=>{
+      const i = +e.target.dataset.i;
+      if(confirm(`¿Borrar "${items[i].marca} ${items[i].nombre}"?`)){
+        items.splice(i,1);
+        render();
+      }
+    });
+  });
+}
+
+document.getElementById('add-btn').addEventListener('click', ()=>{
+  items.push(blankItem());
+  render();
+  window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'});
+});
+
+document.getElementById('file-input').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const parsed = JSON.parse(reader.result);
+      if(!Array.isArray(parsed)) throw new Error('El archivo no es una lista de productos');
+      items = parsed;
+      render();
+    } catch(err){
+      alert('No se pudo leer el archivo: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+});
+
+document.getElementById('download-btn').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(items, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'catalogo.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+});
+
+document.getElementById('view-json-btn').addEventListener('click', ()=>{
+  const box = document.getElementById('json-view');
+  const ta = document.getElementById('json-textarea');
+  const showing = box.style.display !== 'none';
+  if(showing){
+    box.style.display = 'none';
+  } else {
+    ta.value = JSON.stringify(items, null, 2);
+    box.style.display = 'block';
+  }
+});
+
+document.getElementById('apply-json-btn').addEventListener('click', ()=>{
+  try{
+    const parsed = JSON.parse(document.getElementById('json-textarea').value);
+    if(!Array.isArray(parsed)) throw new Error('Debe ser una lista de productos');
+    items = parsed;
+    render();
+    document.getElementById('json-view').style.display = 'none';
+  } catch(err){
+    alert('JSON inválido: ' + err.message);
+  }
+});
+
+render();
+</script>
+</body>
+</html>
