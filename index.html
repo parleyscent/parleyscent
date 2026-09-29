@@ -3,7 +3,32 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Parley Scent</title>
+<title>Parley Scent | Casa de Decants — Tuxtla Gutiérrez</title>
+<meta name="description" content="Decants originales y perfumes bajo pedido. Elige tu carta y pide por WhatsApp. Casa de decants en Tuxtla Gutiérrez, Suchiapa y Comitán de Domínguez.">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Parley Scent">
+<meta property="og:title" content="Parley Scent | Casa de Decants">
+<meta property="og:description" content="Decants originales y perfumes bajo pedido. Elige tu carta y pide por WhatsApp.">
+<meta property="og:image" content="https://parleyscent.github.io/parleyscent/img/og-image.png">
+<meta property="og:url" content="https://parleyscent.github.io/parleyscent/">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Parley Scent | Casa de Decants">
+<meta name="twitter:description" content="Decants originales y perfumes bajo pedido. Elige tu carta y pide por WhatsApp.">
+<meta name="twitter:image" content="https://parleyscent.github.io/parleyscent/img/og-image.png">
+
+<!-- Google Analytics (GA4) -->
+<!-- Reemplaza G-XXXXXXXXXX por tu Measurement ID real de Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-XXXXXXXXXX');
+</script>
 <style>
   :root{
     --bg:#0d0c0a;
@@ -176,6 +201,24 @@
   .bq-modal-price{font-size:1.4rem;color:var(--gold);margin-bottom:6px;}
   .bq-modal-dates{font-size:.78rem;color:var(--muted);line-height:1.7;margin-bottom:18px;}
   .bq-modal-btn{display:block;text-align:center;width:100%;}
+
+  .bq-filters{max-width:760px;margin:0 auto 26px;display:flex;flex-direction:column;gap:14px;align-items:center;}
+  .bq-search{
+    width:100%;max-width:360px;padding:11px 16px;border-radius:999px;
+    border:1px solid rgba(201,162,77,.4);background:rgba(245,241,232,.04);
+    color:var(--bone);font-family:Georgia,serif;font-size:.9rem;outline:none;
+  }
+  .bq-search::placeholder{color:var(--muted);}
+  .bq-search:focus{border-color:var(--gold);}
+  .bq-brand-pills{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;}
+  .bq-pill{
+    border:1px solid rgba(201,162,77,.4);border-radius:999px;padding:6px 16px;
+    font-size:.72rem;letter-spacing:.05em;color:var(--muted);cursor:pointer;
+    background:transparent;transition:all .15s ease;
+  }
+  .bq-pill:hover{border-color:var(--gold);color:var(--bone);}
+  .bq-pill.active{background:var(--gold);border-color:var(--gold);color:#0d0c0a;}
+  .bq-empty{text-align:center;color:var(--muted);font-size:.9rem;padding:30px 0;grid-column:1/-1;}
 </style>
 </head>
 <body>
@@ -205,6 +248,10 @@
       <p>Frascos completos que traemos exclusivamente para ti. Elige el tuyo y aparta tu lugar antes del cierre.</p>
     </div>
     <div class="bq-notice">📌 Los frascos completos se solicitan bajo pedido con el <b>50% de anticipo</b>. Cerramos pedidos todos los viernes a las 12:00 PM.</div>
+    <div class="bq-filters">
+      <input type="text" id="bq-search" class="bq-search" placeholder="Buscar perfume o marca...">
+      <div class="bq-brand-pills" id="bq-brand-pills"></div>
+    </div>
     <div class="bq-grid" id="bq-grid"></div>
   </section>
 
@@ -704,6 +751,48 @@ const BQ_NOTES = {
 };
 
 let bqCurrentItems = CATALOGO_EMBED;
+let bqSearchTerm = '';
+let bqActiveBrand = 'Todas';
+
+function bqBrandList(items){
+  const brands = Array.from(new Set(items.map(it => it.marca))).sort();
+  return ['Todas', ...brands];
+}
+
+function renderBqFilters(items){
+  const wrap = document.getElementById('bq-brand-pills');
+  wrap.innerHTML = bqBrandList(items).map(b =>
+    `<button type="button" class="bq-pill ${b===bqActiveBrand?'active':''}" data-brand="${b}">${b}</button>`
+  ).join('');
+  wrap.querySelectorAll('.bq-pill').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      bqActiveBrand = btn.dataset.brand;
+      applyBqFilters();
+    });
+  });
+}
+
+function applyBqFilters(){
+  const term = bqSearchTerm.trim().toLowerCase();
+  const filtered = bqCurrentItems.filter(it=>{
+    const matchesBrand = bqActiveBrand === 'Todas' || it.marca === bqActiveBrand;
+    const haystack = `${it.marca} ${it.nombre}`.toLowerCase();
+    const matchesTerm = !term || haystack.includes(term);
+    return matchesBrand && matchesTerm;
+  });
+  renderBqFilters(bqCurrentItems);
+  if(filtered.length === 0){
+    document.getElementById('bq-grid').innerHTML = '<div class="bq-empty">No encontramos perfumes con ese filtro. Intenta con otra marca o palabra.</div>';
+  } else {
+    renderBoutique(filtered);
+  }
+}
+
+document.getElementById('bq-search').addEventListener('input', (e)=>{
+  bqSearchTerm = e.target.value;
+  applyBqFilters();
+});
+
 
 function openBqModal(id){
   const it = bqCurrentItems.find(x => x.id === id);
@@ -739,10 +828,10 @@ function closeBqModal(){
 
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeBqModal(); });
 
-renderBoutique(CATALOGO_EMBED);
+applyBqFilters();
 fetch('catalogo.json', {cache:'no-cache'})
   .then(r => r.ok ? r.json() : null)
-  .then(j => { if(Array.isArray(j) && j.length){ bqCurrentItems = j; renderBoutique(j); } })
+  .then(j => { if(Array.isArray(j) && j.length){ bqCurrentItems = j; applyBqFilters(); } })
   .catch(()=>{});
 </script>
   <div class="bq-overlay" id="bq-modal-overlay" onclick="if(event.target===this) closeBqModal()">
