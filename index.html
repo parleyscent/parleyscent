@@ -22,12 +22,12 @@
 
 <!-- Google Analytics (GA4) -->
 <!-- Reemplaza G-XXXXXXXXXX por tu Measurement ID real de Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-HZFB9N852S"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-HZFB9N852S');
+  gtag('config', 'G-XXXXXXXXXX');
 </script>
 <style>
   :root{
@@ -414,221 +414,14 @@ cardsEl.querySelector('.card').classList.add('active');
 renderStory(PERFUMES[0]);
 
 // ---- Boutique Bajo Pedido ----
-// Los datos se leen de catalogo.json (si está junto a esta página); si no, se usa esta copia.
+// Los datos se leen SIEMPRE de catalogo.json, junto a esta página.
 // La imagen de cada tarjeta sale del campo "imagen" (si el archivo no existe, se oculta sola).
-const CATALOGO_EMBED = [
-  {
-    "id": "armaf-artisto-100ml",
-    "marca": "ARMAF",
-    "nombre": "Odyssey Artisto The Red",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 860,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-artisto.png"
-  },
-  {
-    "id": "armaf-go-mango-100ml",
-    "marca": "ARMAF",
-    "nombre": "Odyssey Go Mango",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 820,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-go-mango.png"
-  },
-  {
-    "id": "bharara-rome-intense-100ml",
-    "marca": "BHARARA",
-    "nombre": "Rome Intense Pour Homme",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1000,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-rome.png"
-  },
-  {
-    "id": "bharara-melancholia-100ml",
-    "marca": "BHARARA",
-    "nombre": "Melancholia Men",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1000,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-melancholia.png"
-  },
-  {
-    "id": "rasasi-hawas-london-100ml",
-    "marca": "RASASI",
-    "nombre": "Hawas London",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1020,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-london.png"
-  },
-  {
-    "id": "bleu-de-chanel-50ml",
-    "marca": "CHANEL",
-    "nombre": "Bleu de Chanel",
-    "concentracion": "EDT",
-    "tamano": "50 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 2550,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/bleu-de-chanel.png"
-  },
-  {
-    "id": "chanel-chance-50ml",
-    "marca": "CHANEL",
-    "nombre": "Chance",
-    "concentracion": "EDT",
-    "tamano": "50 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 2860,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/chanel-chance.png"
-  },
-  {
-    "id": "chanel-allure-homme-sport-150ml",
-    "marca": "CHANEL",
-    "nombre": "Allure Homme Sport",
-    "concentracion": "EDT",
-    "tamano": "150 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 4110,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/chanel-allure-sport.png"
-  },
-  {
-    "id": "afnan-9am-dive-100ml",
-    "marca": "AFNAN",
-    "nombre": "9am Dive",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 830,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9am-dive.png"
-  },
-  {
-    "id": "afnan-9pm-100ml",
-    "marca": "AFNAN",
-    "nombre": "9pm",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 810,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9pm.png"
-  },
-  {
-    "id": "afnan-9pm-elixir-100ml",
-    "marca": "AFNAN",
-    "nombre": "9pm Elixir",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 840,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9pm-elixir.png"
-  },
-  {
-    "id": "bharara-king-100ml",
-    "marca": "BHARARA",
-    "nombre": "King",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1460,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-king.png"
-  },
-  {
-    "id": "armaf-cdn-iconic-100ml",
-    "marca": "ARMAF",
-    "nombre": "Club de Nuit Iconic",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1060,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-cdn-iconic.png"
-  },
-  {
-    "id": "rasasi-hawas-diva-100ml",
-    "marca": "RASASI",
-    "nombre": "Hawas Diva",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1170,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-diva.png"
-  },
-  {
-    "id": "rasasi-hawas-malibu-100ml",
-    "marca": "RASASI",
-    "nombre": "Hawas Malibú",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1170,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-malibu.png"
-  },
-  {
-    "id": "rasasi-hawas-him-100ml",
-    "marca": "RASASI",
-    "nombre": "Hawas For Him",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 1060,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-him.png"
-  },
-  {
-    "id": "armaf-odyssey-mega-100ml",
-    "marca": "ARMAF",
-    "nombre": "Odyssey Mega",
-    "concentracion": "EDP",
-    "tamano": "100 ml",
-    "modalidad": "Sobre pedido",
-    "precio": 830,
-    "cierre_pedido": "Viernes 12:00 PM",
-    "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-odyssey-mega.png"
-  },
-];
-
 const bqGrid = document.getElementById('bq-grid');
 function mxn(n){ return '$' + Number(n).toLocaleString('es-MX') + ' MXN'; }
 
 function renderBoutique(items){
   bqGrid.innerHTML = items.map(it=>{
-    const msg = `Hola! Quiero pedir bajo pedido: ${it.marca} ${it.nombre} ${it.concentracion} ${it.tamano} (${mxn(it.precio)}), de la Boutique Bajo Pedido de Parley Scent.`;
+    const msg = `Hola! Quiero un frasco bajo pedido: ${it.marca} ${it.nombre} ${it.concentracion} ${it.tamano} (${mxn(it.precio)}), de la Boutique Bajo Pedido de Parley Scent.`;
     const href = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(msg)}`;
     return `<article class="bq-card" id="${it.id}" tabindex="0" role="button" aria-haspopup="dialog" onclick='openBqModal("${it.id}")' onkeydown='if(event.key==="Enter")openBqModal("${it.id}")'>
       <img src="${it.imagen}" alt="${it.nombre}" class="bq-img" loading="lazy" onerror="this.style.display='none'">
@@ -750,7 +543,7 @@ const BQ_NOTES = {
   }
 };
 
-let bqCurrentItems = CATALOGO_EMBED;
+let bqCurrentItems = [];
 let bqSearchTerm = '';
 let bqActiveBrand = 'Todas';
 
@@ -800,7 +593,7 @@ function openBqModal(id){
   const notes = BQ_NOTES[id];
   const overlay = document.getElementById('bq-modal-overlay');
   const body = document.getElementById('bq-modal-body');
-  const waMsg = `Hola! Quiero pedir bajo pedido: ${it.marca} ${it.nombre} ${it.concentracion} ${it.tamano} (${mxn(it.precio)}), de la Boutique Bajo Pedido de Parley Scent.`;
+  const waMsg = `Hola! Quiero un frasco bajo pedido: ${it.marca} ${it.nombre} ${it.concentracion} ${it.tamano} (${mxn(it.precio)}), de la Boutique Bajo Pedido de Parley Scent.`;
   const waHref = `https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(waMsg)}`;
   body.innerHTML = `
     ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}" class="bq-modal-img" onerror="this.style.display='none'">` : ''}
@@ -828,11 +621,18 @@ function closeBqModal(){
 
 document.addEventListener('keydown', e => { if(e.key === 'Escape') closeBqModal(); });
 
-applyBqFilters();
+bqGrid.innerHTML = '<div class="bq-empty">Cargando catálogo...</div>';
 fetch('catalogo.json', {cache:'no-cache'})
-  .then(r => r.ok ? r.json() : null)
-  .then(j => { if(Array.isArray(j) && j.length){ bqCurrentItems = j; applyBqFilters(); } })
-  .catch(()=>{});
+  .then(r => r.ok ? r.json() : Promise.reject('status ' + r.status))
+  .then(j => {
+    if(!Array.isArray(j) || !j.length) throw new Error('catalogo.json vacío o con formato inválido');
+    bqCurrentItems = j;
+    applyBqFilters();
+  })
+  .catch(err => {
+    console.error('No se pudo cargar catalogo.json:', err);
+    bqGrid.innerHTML = '<div class="bq-empty">No se pudo cargar el catálogo. Verifica que el archivo <b>catalogo.json</b> esté junto a esta página.</div>';
+  });
 </script>
   <div class="bq-overlay" id="bq-modal-overlay" onclick="if(event.target===this) closeBqModal()">
     <div class="bq-modal" role="dialog" aria-modal="true">
