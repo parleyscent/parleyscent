@@ -96,6 +96,7 @@ const FIELDS = [
   {key:'nombre', label:'NOMBRE'},
   {key:'concentracion', label:'CONCENTRACIÓN (EDP/EDT)'},
   {key:'tamano', label:'TAMAÑO'},
+  {key:'genero', label:'GÉNERO', type:'select', options:['Hombre','Mujer','Unisex']},
   {key:'modalidad', label:'MODALIDAD'},
   {key:'precio', label:'PRECIO (MXN, solo número)'},
   {key:'cierre_pedido', label:'CIERRE DE PEDIDO'},
@@ -114,7 +115,8 @@ let items = [
     "precio": 860,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-artisto.png"
+    "imagen": "img/armaf-artisto.png",
+    "genero": "Hombre"
   },
   {
     "id": "armaf-go-mango-100ml",
@@ -126,7 +128,8 @@ let items = [
     "precio": 820,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-go-mango.png"
+    "imagen": "img/armaf-go-mango.png",
+    "genero": "Hombre"
   },
   {
     "id": "bharara-rome-intense-100ml",
@@ -138,7 +141,8 @@ let items = [
     "precio": 1000,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-rome.png"
+    "imagen": "img/bharara-rome.png",
+    "genero": "Hombre"
   },
   {
     "id": "bharara-melancholia-100ml",
@@ -150,7 +154,8 @@ let items = [
     "precio": 1000,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-melancholia.png"
+    "imagen": "img/bharara-melancholia.png",
+    "genero": "Hombre"
   },
   {
     "id": "rasasi-hawas-london-100ml",
@@ -162,7 +167,8 @@ let items = [
     "precio": 1020,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-london.png"
+    "imagen": "img/rasasi-hawas-london.png",
+    "genero": "Hombre"
   },
   {
     "id": "bleu-de-chanel-50ml",
@@ -174,7 +180,8 @@ let items = [
     "precio": 2550,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bleu-de-chanel.png"
+    "imagen": "img/bleu-de-chanel.png",
+    "genero": "Hombre"
   },
   {
     "id": "chanel-chance-50ml",
@@ -186,7 +193,8 @@ let items = [
     "precio": 2860,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/chanel-chance.png"
+    "imagen": "img/chanel-chance.png",
+    "genero": "Mujer"
   },
   {
     "id": "chanel-allure-homme-sport-150ml",
@@ -198,19 +206,21 @@ let items = [
     "precio": 4110,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/chanel-allure-sport.png"
+    "imagen": "img/chanel-allure-sport.png",
+    "genero": "Hombre"
   },
   {
-    "id": "afnan-9pm-dive-100ml",
+    "id": "afnan-9am-dive-100ml",
     "marca": "AFNAN",
-    "nombre": "9pm Dive",
+    "nombre": "9am Dive",
     "concentracion": "EDP",
     "tamano": "100 ml",
     "modalidad": "Sobre pedido",
     "precio": 830,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9pm-dive.png"
+    "imagen": "img/afnan-9am-dive.png",
+    "genero": "Hombre"
   },
   {
     "id": "afnan-9pm-100ml",
@@ -222,7 +232,8 @@ let items = [
     "precio": 810,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9pm.png"
+    "imagen": "img/afnan-9pm.png",
+    "genero": "Hombre"
   },
   {
     "id": "afnan-9pm-elixir-100ml",
@@ -234,7 +245,8 @@ let items = [
     "precio": 840,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9pm-elixir.png"
+    "imagen": "img/afnan-9pm-elixir.png",
+    "genero": "Hombre"
   },
   {
     "id": "bharara-king-100ml",
@@ -246,7 +258,8 @@ let items = [
     "precio": 1460,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-king.png"
+    "imagen": "img/bharara-king.png",
+    "genero": "Hombre"
   },
   {
     "id": "armaf-cdn-iconic-100ml",
@@ -258,7 +271,8 @@ let items = [
     "precio": 1060,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-cdn-iconic.png"
+    "imagen": "img/armaf-cdn-iconic.png",
+    "genero": "Hombre"
   },
   {
     "id": "rasasi-hawas-diva-100ml",
@@ -270,7 +284,8 @@ let items = [
     "precio": 1170,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-diva.png"
+    "imagen": "img/rasasi-hawas-diva.png",
+    "genero": "Mujer"
   },
   {
     "id": "rasasi-hawas-malibu-100ml",
@@ -282,7 +297,8 @@ let items = [
     "precio": 1170,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-malibu.png"
+    "imagen": "img/rasasi-hawas-malibu.png",
+    "genero": "Hombre"
   },
   {
     "id": "rasasi-hawas-him-100ml",
@@ -294,7 +310,8 @@ let items = [
     "precio": 1060,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-him.png"
+    "imagen": "img/rasasi-hawas-him.png",
+    "genero": "Hombre"
   },
   {
     "id": "armaf-odyssey-mega-100ml",
@@ -306,7 +323,8 @@ let items = [
     "precio": 830,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-odyssey-mega.png"
+    "imagen": "img/armaf-odyssey-mega.png",
+    "genero": "Hombre"
   }
 ];
 
@@ -321,6 +339,7 @@ function blankItem(){
   return {
     id: 'nuevo-' + Date.now(),
     marca: '', nombre: '', concentracion: 'EDP', tamano: '100 ml',
+    genero: 'Hombre',
     modalidad: 'Sobre pedido', precio: 0,
     cierre_pedido: 'Viernes 12:00 PM', entrega_estimada: 'Miércoles',
     imagen: ''
@@ -349,14 +368,20 @@ function render(){
         ${FIELDS.map(f => `
           <div>
             <label>${f.label}</label>
+            ${f.type==='select' ? `
+            <select data-i="${i}" data-key="${f.key}">
+              ${f.options.map(opt => `<option value="${opt}" ${ (it[f.key]||'')===opt ? 'selected' : '' }>${opt}</option>`).join('')}
+            </select>
+            ` : `
             <input data-i="${i}" data-key="${f.key}" value="${(it[f.key] ?? '').toString().replace(/"/g,'&quot;')}" type="${f.key==='precio'?'number':'text'}">
+            `}
           </div>
         `).join('')}
       </div>
     </div>
   `).join('');
 
-  cardsEl.querySelectorAll('input').forEach(inp=>{
+  cardsEl.querySelectorAll('input, select').forEach(inp=>{
     inp.addEventListener('input', e=>{
       const i = +e.target.dataset.i;
       const key = e.target.dataset.key;
