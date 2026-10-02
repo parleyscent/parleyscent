@@ -270,6 +270,7 @@
     <div class="bq-notice">📌 Los frascos completos se solicitan bajo pedido con el <b>50% de anticipo</b>. Cerramos pedidos todos los viernes a las 12:00 PM.</div>
     <div class="bq-filters">
       <input type="text" id="bq-search" class="bq-search" placeholder="Buscar perfume o marca...">
+      <div class="bq-brand-pills" id="bq-gender-pills"></div>
       <div class="bq-brand-pills" id="bq-brand-pills"></div>
     </div>
     <div class="bq-grid" id="bq-grid"></div>
@@ -447,7 +448,7 @@ function renderBoutique(items){
       <img src="${it.imagen}" alt="${it.nombre}" class="bq-img" loading="lazy" onerror="this.style.display='none'">
       <div class="bq-brand">${it.marca}</div>
       <div class="bq-name">${it.nombre}</div>
-      <div class="bq-spec">${it.concentracion} &middot; ${it.tamano}</div>
+      <div class="bq-spec">${it.concentracion} &middot; ${it.tamano}${it.genero ? ' &middot; ' + it.genero : ''}</div>
       <div class="bq-badge">${it.modalidad.toUpperCase()}</div>
       <div class="bq-price">${mxn(it.precio)}</div>
       <div class="bq-dates">Cierre de pedido: <b>${it.cierre_pedido}</b><br>Entrega: <b>de 5 a 7 días hábiles</b></div>
@@ -566,10 +567,15 @@ const BQ_NOTES = {
 let bqCurrentItems = [];
 let bqSearchTerm = '';
 let bqActiveBrand = 'Todas';
+let bqActiveGender = 'Todos';
 
 function bqBrandList(items){
   const brands = Array.from(new Set(items.map(it => it.marca))).sort();
   return ['Todas', ...brands];
+}
+
+function bqGenderList(){
+  return ['Todos', 'Mujer', 'Hombre', 'Unisex'];
 }
 
 function renderBqFilters(items){
@@ -583,19 +589,31 @@ function renderBqFilters(items){
       applyBqFilters();
     });
   });
+
+  const genderWrap = document.getElementById('bq-gender-pills');
+  genderWrap.innerHTML = bqGenderList().map(g =>
+    `<button type="button" class="bq-pill ${g===bqActiveGender?'active':''}" data-gender="${g}">${g}</button>`
+  ).join('');
+  genderWrap.querySelectorAll('.bq-pill').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      bqActiveGender = btn.dataset.gender;
+      applyBqFilters();
+    });
+  });
 }
 
 function applyBqFilters(){
   const term = bqSearchTerm.trim().toLowerCase();
   const filtered = bqCurrentItems.filter(it=>{
     const matchesBrand = bqActiveBrand === 'Todas' || it.marca === bqActiveBrand;
+    const matchesGender = bqActiveGender === 'Todos' || (it.genero || 'Unisex') === bqActiveGender;
     const haystack = `${it.marca} ${it.nombre}`.toLowerCase();
     const matchesTerm = !term || haystack.includes(term);
-    return matchesBrand && matchesTerm;
+    return matchesBrand && matchesGender && matchesTerm;
   });
   renderBqFilters(bqCurrentItems);
   if(filtered.length === 0){
-    document.getElementById('bq-grid').innerHTML = '<div class="bq-empty">No encontramos perfumes con ese filtro. Intenta con otra marca o palabra.</div>';
+    document.getElementById('bq-grid').innerHTML = '<div class="bq-empty">No encontramos perfumes con ese filtro. Intenta con otra marca, género o palabra.</div>';
   } else {
     renderBoutique(filtered);
   }
@@ -619,7 +637,7 @@ function openBqModal(id){
     ${it.imagen ? `<img src="${it.imagen}" alt="${it.nombre}" class="bq-modal-img" onerror="this.style.display='none'">` : ''}
     <div class="bq-modal-brand">${it.marca}</div>
     <div class="bq-modal-name">${it.nombre}</div>
-    <div class="bq-modal-spec">${it.concentracion} &middot; ${it.tamano}</div>
+    <div class="bq-modal-spec">${it.concentracion} &middot; ${it.tamano}${it.genero ? ' &middot; ' + it.genero : ''}</div>
     ${notes ? `<p class="bq-modal-desc">${notes.desc}</p>
     <div class="bq-modal-notes">
       <div><h4>SALIDA</h4><p>${notes.salida}</p></div>
