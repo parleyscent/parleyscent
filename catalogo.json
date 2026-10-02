@@ -9,7 +9,8 @@
     "precio": 860,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-artisto.png"
+    "imagen": "img/armaf-artisto.png",
+    "genero": "Hombre"
   },
   {
     "id": "armaf-go-mango-100ml",
@@ -21,7 +22,8 @@
     "precio": 820,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-go-mango.png"
+    "imagen": "img/armaf-go-mango.png",
+    "genero": "Hombre"
   },
   {
     "id": "bharara-rome-intense-100ml",
@@ -33,7 +35,8 @@
     "precio": 1000,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-rome.png"
+    "imagen": "img/bharara-rome.png",
+    "genero": "Hombre"
   },
   {
     "id": "bharara-melancholia-100ml",
@@ -45,7 +48,8 @@
     "precio": 1000,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-melancholia.png"
+    "imagen": "img/bharara-melancholia.png",
+    "genero": "Hombre"
   },
   {
     "id": "rasasi-hawas-london-100ml",
@@ -57,7 +61,8 @@
     "precio": 1020,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-london.png"
+    "imagen": "img/rasasi-hawas-london.png",
+    "genero": "Hombre"
   },
   {
     "id": "bleu-de-chanel-50ml",
@@ -69,7 +74,8 @@
     "precio": 2550,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bleu-de-chanel.png"
+    "imagen": "img/bleu-de-chanel.png",
+    "genero": "Hombre"
   },
   {
     "id": "chanel-chance-50ml",
@@ -81,7 +87,8 @@
     "precio": 2860,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/chanel-chance.png"
+    "imagen": "img/chanel-chance.png",
+    "genero": "Mujer"
   },
   {
     "id": "chanel-allure-homme-sport-150ml",
@@ -93,7 +100,8 @@
     "precio": 4110,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/chanel-allure-sport.png"
+    "imagen": "img/chanel-allure-sport.png",
+    "genero": "Hombre"
   },
   {
     "id": "afnan-9am-dive-100ml",
@@ -105,7 +113,8 @@
     "precio": 830,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9am-dive.png"
+    "imagen": "img/afnan-9am-dive.png",
+    "genero": "Hombre"
   },
   {
     "id": "afnan-9pm-100ml",
@@ -117,7 +126,8 @@
     "precio": 810,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9pm.png"
+    "imagen": "img/afnan-9pm.png",
+    "genero": "Hombre"
   },
   {
     "id": "afnan-9pm-elixir-100ml",
@@ -129,7 +139,8 @@
     "precio": 840,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/afnan-9pm-elixir.png"
+    "imagen": "img/afnan-9pm-elixir.png",
+    "genero": "Hombre"
   },
   {
     "id": "bharara-king-100ml",
@@ -141,7 +152,8 @@
     "precio": 1460,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/bharara-king.png"
+    "imagen": "img/bharara-king.png",
+    "genero": "Hombre"
   },
   {
     "id": "armaf-cdn-iconic-100ml",
@@ -153,7 +165,8 @@
     "precio": 1060,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-cdn-iconic.png"
+    "imagen": "img/armaf-cdn-iconic.png",
+    "genero": "Hombre"
   },
   {
     "id": "rasasi-hawas-diva-100ml",
@@ -165,7 +178,8 @@
     "precio": 1170,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-diva.png"
+    "imagen": "img/rasasi-hawas-diva.png",
+    "genero": "Mujer"
   },
   {
     "id": "rasasi-hawas-malibu-100ml",
@@ -177,7 +191,8 @@
     "precio": 1170,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-malibu.png"
+    "imagen": "img/rasasi-hawas-malibu.png",
+    "genero": "Hombre"
   },
   {
     "id": "rasasi-hawas-him-100ml",
@@ -189,7 +204,8 @@
     "precio": 1060,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/rasasi-hawas-him.png"
+    "imagen": "img/rasasi-hawas-him.png",
+    "genero": "Hombre"
   },
   {
     "id": "armaf-odyssey-mega-100ml",
@@ -201,7 +217,8 @@
     "precio": 830,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
-    "imagen": "img/armaf-odyssey-mega.png"
+    "imagen": "img/armaf-odyssey-mega.png",
+    "genero": "Hombre"
   },
   {
     "id": "armaf-mandarin-sky-100-ml",
@@ -214,5 +231,6 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/armaf-mandarin-sky.png"
+    "genero": "Hombre"
   }
 ]
