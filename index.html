@@ -123,6 +123,9 @@
   .btn{display:inline-block;padding:13px 30px;border-radius:999px;text-decoration:none;font-size:.9rem;letter-spacing:.03em;}
   .btn.primary{background:var(--wine);color:var(--bone);}
   .btn.ghost{border:1px solid rgba(245,241,232,.3);color:var(--bone);}
+  button.btn{background:none;border:none;font-family:inherit;cursor:pointer;-webkit-appearance:none;appearance:none;}
+  button.btn.ghost{border:1px solid rgba(245,241,232,.3);}
+  button.btn.primary{background:var(--wine);}
   .logo-sm{display:block;width:64px;height:auto;margin:0 auto 14px;}
   footer{text-align:center;color:var(--muted);font-size:.78rem;padding-top:24px;border-top:1px solid rgba(245,241,232,.08);}
 
@@ -538,7 +541,7 @@ const BQ_NOTES = {
     "fondo": "Madera de cedro, vetiver",
     "desc": "Aromático-amaderado, fresco y elegante; ideal para el día a día."
   },
-  "bharara-melancholia-100ml": {
+  "bharara-rome-melancholia-men-100-ml": {
     "salida": "Bergamota, pomelo, notas ozónicas, ciruela",
     "corazon": "Madera de cachemira, cedro, avellana, miel, jazmín, azahar",
     "fondo": "Madera ambarada, notas gourmand, musgo de roble, pachulí, vetiver",
@@ -578,7 +581,7 @@ const BQ_NOTES = {
     "salida": "Pitahaya, lavanda, coñac, manzana, bergamota",
     "corazon": "Toffee, cardamomo, gamuza, cedro",
     "fondo": "Haba tonka, pachulí, madera Akigala",
-    "desc": "El original de la línea: dulce, licoroso y con carácter nocturno."
+    "desc": "El clásico 9pm: dulce, licoroso y con carácter nocturno."
   },
   "afnan-9pm-elixir-100ml": {
     "salida": "Frutas oscuras, especias",
@@ -621,6 +624,66 @@ const BQ_NOTES = {
     "corazon": "Salvia, bayas de enebro, geranio",
     "fondo": "Madera de ámbar (amberwood), haba tonka, cedro, vetiver",
     "desc": "Amaderado aromático, fresco y limpio; equilibra cítricos-frutales con un fondo dulce-amaderado. Ideal a diario, oficina o gimnasio."
+  },
+  "armaf-mandarin-sky-100-ml": {
+    "salida": "Mandarina, naranja, azafrán, salvia",
+    "corazon": "Caramelo, haba tonka, tagetes",
+    "fondo": "Ambroxan, vetiver, cedro",
+    "desc": "Cítrico-gourmand: arranca brillante y cítrico, y se vuelve cálido y dulce con el paso de las horas."
+  },
+  "rasasi-hawas-kobra-100-ml": {
+    "salida": "Jengibre, bergamota, mandarina",
+    "corazon": "Canela, té verde, neroli",
+    "fondo": "Almizcle, notas amaderadas, ámbar",
+    "desc": "Oriental amaderado: especiado y envolvente, con una base cálida de almizcle y ámbar."
+  },
+  "jean-paul-gaultier-le-beau-125-ml": {
+    "salida": "Bergamota",
+    "corazon": "Coco, madera",
+    "fondo": "Haba tonka",
+    "desc": "Fresco y seductor: bergamota luminosa sobre un corazón cremoso de coco y una base cálida de tonka."
+  },
+  "ariana-grande-cloud-pink-100-ml": {
+    "salida": "Pitahaya, frutos rojos, piña",
+    "corazon": "Agua de coco, orquídea de vainilla, ambrette",
+    "fondo": "Musgo magenta, maderas ambaradas, praliné",
+    "desc": "La versión más frutal de la línea Cloud: dulce, jugosa y envolvente."
+  },
+  "ariana-grande-thank-u-next-2-0-100-ml": {
+    "salida": "Manzana, fresa, granada",
+    "corazon": "Orquídea blanca, jazmín",
+    "fondo": "Malvavisco, almizcle, sandalo",
+    "desc": "Afrutado y floral con un fondo goloso de malvavisco y almizcle; juvenil y luminoso."
+  },
+  "ariana-grande-mod-blush-100-ml": {
+    "salida": "Bergamota, maracuyá, frambuesa, pimienta rosa",
+    "corazon": "Magnolia, pétalos de rosa, pera",
+    "fondo": "Ambrox, dreamwood, almizcle",
+    "desc": "Floral-afrutado con una base amaderada-ambarada, sensual y moderna."
+  },
+  "ariana-grande-mod-vanilla-100-ml": {
+    "salida": "Ciruela, musgo cremoso, freesia rosa",
+    "corazon": "Praliné blanco, jazmín",
+    "fondo": "Vainilla, manteca de cacao",
+    "desc": "Gourmand envolvente: vainilla cálida con un toque frutal y floral."
+  },
+  "lattafa-khamrah-dukhan-100-ml": {
+    "salida": "Especias, pimienta gorda, mandarina",
+    "corazon": "Labdano, incienso, flor de azahar, pachulí",
+    "fondo": "Tabaco, praliné, ámbar, benjuí, haba tonka",
+    "desc": "Oriental ahumado y especiado: envolvente, cálido y con carácter nocturno."
+  },
+  "dolce-gabbana-devotion-100-ml": {
+    "salida": "Limón confitado",
+    "corazon": "Flor de azahar",
+    "fondo": "Vainilla",
+    "desc": "Delicado y cálido: cítrico dulce al inicio, floral en el corazón y vainilla suave de fondo."
+  },
+  "lattafa-yara-moi-100-ml": {
+    "salida": "Jazmín, durazno",
+    "corazon": "Caramelo, ámbar",
+    "fondo": "Pachulí, sándalo",
+    "desc": "Floral-gourmand cremoso: dulce, cálido y fácil de llevar."
   }
 };
 
@@ -896,7 +959,7 @@ function cartBuildMessage(){
   if(cart.length === 0) return '';
   let lines = ['Hola! Quiero hacer este pedido en Parley Scent:', ''];
   cart.forEach(it => {
-    lines.push(`\u2022 ${it.qty}x ${it.name} (${it.brand}) \u2013 ${it.variant} \u2013 ${mxn(it.price * it.qty)}`);
+    lines.push(`\u2022 ${it.qty}x ${it.name} (${it.brand}) \u2013 ${it.variant}`);
   });
   lines.push('');
   lines.push(`Total: ${mxn(cartTotal())}`);
