@@ -10,7 +10,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/armaf-artisto.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   },
   {
     "id": "armaf-go-mango-100ml",
@@ -23,7 +24,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/armaf-go-mango.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   },
   {
     "id": "bharara-rome-intense-100ml",
@@ -36,7 +38,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/bharara-rome.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "Valentino Uomo Born In Roma"
   },
   {
     "id": "bharara-melancholia-100ml",
@@ -49,7 +52,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/bharara-melancholia.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   },
   {
     "id": "rasasi-hawas-london-100ml",
@@ -62,7 +66,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/rasasi-hawas-london.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "Ex Nihilo Brompton Immortals"
   },
   {
     "id": "bleu-de-chanel-50ml",
@@ -75,7 +80,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/bleu-de-chanel.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   },
   {
     "id": "chanel-chance-50ml",
@@ -88,7 +94,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/chanel-chance.png",
-    "genero": "Mujer"
+    "genero": "Mujer",
+    "dupe": ""
   },
   {
     "id": "chanel-allure-homme-sport-150ml",
@@ -101,7 +108,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/chanel-allure-sport.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   },
   {
     "id": "afnan-9am-dive-100ml",
@@ -114,7 +122,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/afnan-9am-dive.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   },
   {
     "id": "afnan-9pm-100ml",
@@ -127,7 +136,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/afnan-9pm.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "Jean Paul Gaultier Ultra Male"
   },
   {
     "id": "afnan-9pm-elixir-100ml",
@@ -140,7 +150,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/afnan-9pm-elixir.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   },
   {
     "id": "bharara-king-100ml",
@@ -153,7 +164,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/bharara-king.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "Xerjoff Erba Pura"
   },
   {
     "id": "armaf-cdn-iconic-100ml",
@@ -166,7 +178,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/armaf-cdn-iconic.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "Bleu de Chanel"
   },
   {
     "id": "rasasi-hawas-diva-100ml",
@@ -179,7 +192,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/rasasi-hawas-diva.png",
-    "genero": "Mujer"
+    "genero": "Mujer",
+    "dupe": "Valentino Donna Born In Roma Intense"
   },
   {
     "id": "rasasi-hawas-malibu-100ml",
@@ -192,7 +206,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/rasasi-hawas-malibu.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "Jean Paul Gaultier Le Beau Le Parfum"
   },
   {
     "id": "rasasi-hawas-him-100ml",
@@ -205,7 +220,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/rasasi-hawas-him.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "Paco Rabanne Invictus"
   },
   {
     "id": "armaf-odyssey-mega-100ml",
@@ -218,7 +234,8 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/armaf-odyssey-mega.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": "YSL Y Eau de Parfum"
   },
   {
     "id": "armaf-mandarin-sky-100-ml",
@@ -231,6 +248,7 @@
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/armaf-mandarin-sky.png",
-    "genero": "Hombre"
+    "genero": "Hombre",
+    "dupe": ""
   }
 ]
