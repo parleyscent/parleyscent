@@ -25,7 +25,7 @@
 <meta name="twitter:image" content="https://parleyscent.github.io/parleyscent/img/og-image.png">
 
 <!-- Google Analytics (GA4) -->
-<!-- Reemplaza G-XXXXXXXXXX por tu Measurement ID real de Google Analytics -->
+<!-- Reemplaza G-HZFB9N852S por tu Measurement ID real de Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-HZFB9N852S"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -205,6 +205,13 @@
   .bq-modal-price{font-size:1.4rem;color:var(--gold);margin-bottom:6px;}
   .bq-modal-dates{font-size:.78rem;color:var(--muted);line-height:1.7;margin-bottom:18px;}
   .bq-modal-btn{display:block;text-align:center;width:100%;}
+  .bq-modal-dupe{
+    display:inline-block;font-size:.76rem;color:var(--gold);
+    border:1px dashed rgba(201,162,77,.5);border-radius:999px;
+    padding:5px 14px;margin:2px 0 18px;
+  }
+  .bq-modal-dupe b{font-weight:600;}
+
 
   .bq-filters{max-width:760px;margin:0 auto 26px;display:flex;flex-direction:column;gap:14px;align-items:center;}
   .bq-search{
@@ -638,6 +645,7 @@ function openBqModal(id){
     <div class="bq-modal-brand">${it.marca}</div>
     <div class="bq-modal-name">${it.nombre}</div>
     <div class="bq-modal-spec">${it.concentracion} &middot; ${it.tamano}${it.genero ? ' &middot; ' + it.genero : ''}</div>
+    ${it.dupe ? `<div class="bq-modal-dupe">En la familia olfativa de: <b>${it.dupe}</b></div>` : ''}
     ${notes ? `<p class="bq-modal-desc">${notes.desc}</p>
     <div class="bq-modal-notes">
       <div><h4>SALIDA</h4><p>${notes.salida}</p></div>
