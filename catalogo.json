@@ -160,7 +160,7 @@
     "concentracion": "EDP",
     "tamano": "100 ml",
     "modalidad": "Sobre pedido",
-    "precio": 1460,
+    "precio": 1300,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/bharara-king.png",
@@ -216,7 +216,7 @@
     "concentracion": "EDP",
     "tamano": "100 ml",
     "modalidad": "Sobre pedido",
-    "precio": 1060,
+    "precio": 930,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/rasasi-hawas-him.png",
@@ -274,7 +274,7 @@
     "genero": "Hombre",
     "dupe": "",
     "modalidad": "Sobre pedido",
-    "precio": 2100,
+    "precio": 1900,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/jean-lebeau-edt.png"
@@ -316,7 +316,7 @@
     "genero": "Mujer",
     "dupe": "",
     "modalidad": "Sobre pedido",
-    "precio": 1500,
+    "precio": 1250,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/ariana-mod-blush.png"
@@ -330,7 +330,7 @@
     "genero": "Mujer",
     "dupe": "",
     "modalidad": "Sobre pedido",
-    "precio": 1800,
+    "precio": 1350,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/ariana-mod-vanilla.png"
@@ -358,7 +358,7 @@
     "genero": "Mujer",
     "dupe": "",
     "modalidad": "Sobre pedido",
-    "precio": 1400,
+    "precio": 1250,
     "cierre_pedido": "Viernes 12:00 PM",
     "entrega_estimada": "Miércoles",
     "imagen": "img/dolce-devotion.png"
