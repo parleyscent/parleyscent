@@ -291,6 +291,9 @@
   .cart-total span:last-child{color:var(--gold);}
   .cart-checkout-btn{display:block;width:100%;text-align:center;}
   @media (max-width:480px){.cart-panel{max-width:100%;}}
+
+  .bq-cats .bq-pill{font-size:.8rem;padding:8px 20px;}
+  .bq-pill .n{opacity:.65;margin-left:6px;font-size:.7rem;}
 </style>
 </head>
 <body>
@@ -330,8 +333,8 @@
     <div class="bq-notice">📌 Los frascos completos se solicitan bajo pedido con el <b>50% de anticipo</b>. Cerramos pedidos todos los viernes a las 12:00 PM.</div>
     <div class="bq-filters">
       <input type="text" id="bq-search" class="bq-search" placeholder="Buscar perfume o marca...">
+      <div class="bq-brand-pills bq-cats" id="bq-cat-pills"></div>
       <div class="bq-brand-pills" id="bq-gender-pills"></div>
-      <div class="bq-brand-pills" id="bq-brand-pills"></div>
     </div>
     <div class="bq-grid" id="bq-grid"></div>
   </section>
@@ -689,12 +692,34 @@ const BQ_NOTES = {
 
 let bqCurrentItems = [];
 let bqSearchTerm = '';
-let bqActiveBrand = 'Todas';
+let bqActiveCat = 'Todos';
 let bqActiveGender = 'Todos';
 
-function bqBrandList(items){
-  const brands = Array.from(new Set(items.map(it => it.marca))).sort();
-  return ['Todas', ...brands];
+// Categorias de la Boutique. La categoria sale de la marca; si un producto trae
+// el campo "categoria" en catalogo.json, ese campo manda sobre la marca.
+const BQ_CATEGORIES = ['Árabe', 'Diseñador', 'Celebridad'];
+const BQ_BRAND_CATEGORY = {
+  'armaf': 'Árabe',
+  'bharara': 'Árabe',
+  'rasasi': 'Árabe',
+  'afnan': 'Árabe',
+  'lattafa': 'Árabe',
+  'chanel': 'Diseñador',
+  'jean paul gaultier': 'Diseñador',
+  'dolce & gabbana': 'Diseñador',
+  'ariana grande': 'Celebridad'
+};
+
+function bqNorm(s){
+  return String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').trim();
+}
+
+function bqCategoryOf(it){
+  if(it.categoria){
+    const forced = BQ_CATEGORIES.find(c => bqNorm(c) === bqNorm(it.categoria));
+    if(forced) return forced;
+  }
+  return BQ_BRAND_CATEGORY[bqNorm(it.marca)] || 'Otros';
 }
 
 function bqGenderList(){
@@ -702,13 +727,16 @@ function bqGenderList(){
 }
 
 function renderBqFilters(items){
-  const wrap = document.getElementById('bq-brand-pills');
-  wrap.innerHTML = bqBrandList(items).map(b =>
-    `<button type="button" class="bq-pill ${b===bqActiveBrand?'active':''}" data-brand="${b}">${b}</button>`
-  ).join('');
-  wrap.querySelectorAll('.bq-pill').forEach(btn=>{
+  const catWrap = document.getElementById('bq-cat-pills');
+  const counts = {};
+  items.forEach(it => { const c = bqCategoryOf(it); counts[c] = (counts[c] || 0) + 1; });
+  catWrap.innerHTML = ['Todos', ...BQ_CATEGORIES].map(c => {
+    const n = c === 'Todos' ? items.length : (counts[c] || 0);
+    return `<button type="button" class="bq-pill ${c===bqActiveCat?'active':''}" data-cat="${c}">${c}<span class="n">${n}</span></button>`;
+  }).join('');
+  catWrap.querySelectorAll('.bq-pill').forEach(btn=>{
     btn.addEventListener('click', ()=>{
-      bqActiveBrand = btn.dataset.brand;
+      bqActiveCat = btn.dataset.cat;
       applyBqFilters();
     });
   });
@@ -726,17 +754,16 @@ function renderBqFilters(items){
 }
 
 function applyBqFilters(){
-  const term = bqSearchTerm.trim().toLowerCase();
+  const term = bqNorm(bqSearchTerm);
   const filtered = bqCurrentItems.filter(it=>{
-    const matchesBrand = bqActiveBrand === 'Todas' || it.marca === bqActiveBrand;
+    const matchesCat = bqActiveCat === 'Todos' || bqCategoryOf(it) === bqActiveCat;
     const matchesGender = bqActiveGender === 'Todos' || (it.genero || 'Unisex') === bqActiveGender;
-    const haystack = `${it.marca} ${it.nombre}`.toLowerCase();
-    const matchesTerm = !term || haystack.includes(term);
-    return matchesBrand && matchesGender && matchesTerm;
+    const matchesTerm = !term || bqNorm(`${it.marca} ${it.nombre}`).includes(term);
+    return matchesCat && matchesGender && matchesTerm;
   });
   renderBqFilters(bqCurrentItems);
   if(filtered.length === 0){
-    document.getElementById('bq-grid').innerHTML = '<div class="bq-empty">No encontramos perfumes con ese filtro. Intenta con otra marca, género o palabra.</div>';
+    document.getElementById('bq-grid').innerHTML = '<div class="bq-empty">No encontramos perfumes con ese filtro. Intenta con otra categoría, género o palabra.</div>';
   } else {
     renderBoutique(filtered);
   }
