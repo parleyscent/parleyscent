@@ -97,6 +97,7 @@ const FIELDS = [
   {key:'concentracion', label:'CONCENTRACIÓN (EDP/EDT)'},
   {key:'tamano', label:'TAMAÑO'},
   {key:'genero', label:'GÉNERO', type:'select', options:['Hombre','Mujer','Unisex']},
+  {key:'categoria', label:'CATEGORÍA (automática por marca si se deja así)', type:'select', options:['','Árabe','Diseñador','Celebridad']},
   {key:'dupe', label:'DUPE DE (dejar vacío si no aplica)'},
   {key:'modalidad', label:'MODALIDAD'},
   {key:'precio', label:'PRECIO (MXN, solo número)'},
@@ -497,7 +498,7 @@ function blankItem(){
   return {
     id: 'nuevo-' + Date.now(),
     marca: '', nombre: '', concentracion: 'EDP', tamano: '100 ml',
-    genero: 'Hombre', dupe: '',
+    genero: 'Hombre', categoria: '', dupe: '',
     modalidad: 'Sobre pedido', precio: 0,
     cierre_pedido: 'Viernes 12:00 PM', entrega_estimada: 'Miércoles',
     imagen: ''
@@ -528,7 +529,7 @@ function render(){
             <label>${f.label}</label>
             ${f.type==='select' ? `
             <select data-i="${i}" data-key="${f.key}">
-              ${f.options.map(opt => `<option value="${opt}" ${ (it[f.key]||'')===opt ? 'selected' : '' }>${opt}</option>`).join('')}
+              ${f.options.map(opt => `<option value="${opt}" ${ (it[f.key]||'')===opt ? 'selected' : '' }>${opt || 'Automática'}</option>`).join('')}
             </select>
             ` : `
             <input data-i="${i}" data-key="${f.key}" value="${(it[f.key] ?? '').toString().replace(/"/g,'&quot;')}" type="${f.key==='precio'?'number':'text'}">
